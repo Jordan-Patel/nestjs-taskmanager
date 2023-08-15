@@ -13,8 +13,8 @@ export class TasksService {
     return this.tasks;
   }
 
-  getTasksWithFilters(filterDto: GetTasksFilterDto): Task[] {
-    const { status, search } = filterDto;
+  getTasksWithFilters(getTasksFilterDto: GetTasksFilterDto): Task[] {
+    const { status, search } = getTasksFilterDto;
     let tasks = this.getAllTasks();
     // do something with status
     if (status) {
@@ -32,7 +32,7 @@ export class TasksService {
   }
 
   getTaskById(id: string): Task {
-    return this.tasks.find((task) => (task.id = id));
+    return this.tasks.find((task) => task.id === id);
   }
 
   createTask(createTaskDto: CreateTaskDto): Task {
