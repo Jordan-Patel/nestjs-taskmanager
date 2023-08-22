@@ -1,7 +1,25 @@
 import { Module } from '@nestjs/common';
 import { TasksModule } from './tasks/tasks.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { DataSource } from 'typeorm';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [TasksModule],
+  imports: [
+    TasksModule,
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: 'localhost',
+      port: 5432,
+      username: 'postgres', // docker-compose.yml
+      password: 'postgres', // docker-compose.yml
+      database: 'task-management',
+      autoLoadEntities: true,
+      synchronize: true,
+    }),
+    AuthModule,
+  ],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private dataSource: DataSource) {}
+}
